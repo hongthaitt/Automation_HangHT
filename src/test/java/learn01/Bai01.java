@@ -1,5 +1,7 @@
 package learn01;
 
+import com.sun.deploy.security.SelectableSecurityManager;
+import common.BaseTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -8,23 +10,23 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class Bai01 {
-    public WebDriver driver;
-
-    @BeforeMethod
-    public WebDriver createDriver() {
-        System.setProperty("webdriver.chrome.driver", "src/test/java/webDriver/chromedriver.exe");
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        return driver;
-    }
-
-    @AfterMethod
-    public void closeDriver() {
-        if (driver != null) {
-            driver.quit();
-        }
-    }
+public class Bai01  extends BaseTest {
+//    public WebDriver driver;
+//
+//    @BeforeMethod
+//    public WebDriver createDriver() {
+//        System.setProperty("webdriver.chrome.driver", "src/test/java/webDriver/chromedriver.exe");
+//        driver = new ChromeDriver();
+//        driver.manage().window().maximize();
+//        return driver;
+//    }
+//
+//    @AfterMethod
+//    public void closeDriver() {
+//        if (driver != null) {
+//            driver.quit();
+//        }
+//    }
 
     @Test
     public void test01() {
@@ -46,27 +48,25 @@ public class Bai01 {
         driver.get("https://automationfc.github.io/basic-form/index.html");
         sleepInSecond(3);
         //check isDisplay mail:
-        if(driver.findElement(By.id("mail")).isDisplayed()){
+        if (driver.findElement(By.id("mail")).isDisplayed()) {
             System.out.println("element is displayed");
-        }
-        else {
+        } else {
             System.out.println("element isnt displayed");
         }
+
         Assert.assertTrue(driver.findElement(By.id("mail")).isDisplayed());
 
         //Check isEnable email:
-        if(driver.findElement(By.id("mail")).isEnabled()){
+        if (driver.findElement(By.id("mail")).isEnabled()) {
             System.out.println("element is isEnabled");
-        }
-        else {
+        } else {
             System.out.println("element isnt isEnabled");
         }
         Assert.assertTrue(driver.findElement(By.id("mail")).isEnabled());
         //Check disable:
-        if(driver.findElement(By.id("disable_password")).isEnabled()){
+        if (driver.findElement(By.id("disable_password")).isEnabled()) {
             System.out.println("element is isEnabled");
-        }
-        else {
+        } else {
             System.out.println("element is disable");
         }
         Assert.assertFalse(driver.findElement(By.id("disable_password")).isEnabled());
@@ -90,3 +90,4 @@ public class Bai01 {
     }
 
 }
+
