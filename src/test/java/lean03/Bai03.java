@@ -63,4 +63,30 @@ public class Bai03 extends BaseTest {
         String expect = "Congratulations! You must have the proper credentials.";
         Assert.assertTrue(actual.equals(expect));
     }
+
+    public String handleUrl(String url, String username, String password){
+        String [] splitUrl = url.split("//");
+
+       /* http://the-internet.herokuapp.com/basic_auth
+        => cắt: http: [0]
+        the-internet.herokuapp.com/basic_auth [1]
+        => [0] + "//" + username + ":" + password + "@" + [1];
+        */
+
+        String newUrl = splitUrl[0] + "//" + username + ":" + password + "@" + splitUrl[1];
+        return newUrl;
+    }
+    @Test
+    public void byPassAuthentication02(){
+        commonUI = new CommonUI(driver);
+        String username = "admin";
+        String password = "admin";
+        String url = "http://the-internet.herokuapp.com/basic_auth";
+//        driver.get("http://admin:admin@the-internet.herokuapp.com/basic_auth");
+        driver.get(handleUrl(url, username, password));
+        commonUI.sleepInSecond(5);
+        String actual = driver.findElement(By.xpath("//div[@class='example']/p")).getText();
+        String expect = "Congratulations! You must have the proper credentials.";
+        Assert.assertTrue(actual.equals(expect));
+    }
 }

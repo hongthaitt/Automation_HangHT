@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="AutoTest_P01" />
+        <module name="Git_Project" />
       </profile>
     </annotationProcessing>
   </component>
