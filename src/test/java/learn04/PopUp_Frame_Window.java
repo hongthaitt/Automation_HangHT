@@ -2,6 +2,7 @@ package learn04;
 
 import common.BaseTest;
 import common.CommonUI;
+import org.checkerframework.checker.units.qual.C;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -52,5 +53,113 @@ public class PopUp_Frame_Window extends BaseTest {
         commonUI.clickOnElement(doLoginBtn);
         String message = commonUI.getText(errorMessage);
         commonUI.verifyMessage(message, ERROR_MESSAGE_INVALID_ACCT);
+    }
+
+    @Test
+    public void popup03(){
+        commonUI = new CommonUI(driver);
+        String URL = "https://dehieu.vn/";
+        String LOGIN_URL = "https://dehieu.vn/dang-nhap";
+        By popup = By.xpath("//div[@class='popup-content']");
+        By closePopup = By.id("close-popup");
+        By loginBtn = By.xpath("//a[text()='Đăng nhập']");
+
+        commonUI.goToUrl(URL);
+        commonUI.sleepInSecond(3);
+
+        if(commonUI.listElement(popup).size() > 0){
+            if(commonUI.checkDisplay(popup)){
+                commonUI.clickOnElement(closePopup);
+            }
+        }
+        else {
+            System.out.println("Không có popup");
+        }
+        commonUI.sleepInSecond(3);
+        commonUI.clickOnElement(loginBtn);
+        commonUI.sleepInSecond(3);
+        commonUI.verifyCurrentUrl(LOGIN_URL);
+    }
+
+    @Test
+    public void iframeTC04(){
+        commonUI = new CommonUI(driver);
+        String URL = "https://skills.kynaenglish.vn/";
+        String EXPECT_FOLLOW = "172K followers";
+        By hotline = By.xpath("//first[text()=' Hotline']");
+        By frameFacebook = By.xpath("//div[@class='face-content']/iframe");
+        By follow = By.xpath("//a[@title='Kyna.vn']//parent::div//following-sibling::div");
+        String iframeChat = "cs_chat_iframe";
+        By chatBox = By.xpath("//div[@class='border_overlay meshim_widget_widgets_BorderOverlay']");
+
+        commonUI.goToUrl(URL);
+        commonUI.sleepInSecond(3);
+        commonUI.scrollToViewElement(hotline);
+        //Frame facebook
+        Assert.assertTrue(commonUI.listElement(frameFacebook).size() > 0);
+        commonUI.switchFrameByWebElement(frameFacebook);
+        commonUI.sleepInSecond(3);
+        String textValue = commonUI.getText(follow);
+        commonUI.verifyMessage(textValue, EXPECT_FOLLOW);
+        commonUI.switchToDefaultContent();
+
+        //Chat frame:
+        commonUI.switchFrameById(iframeChat);
+        commonUI.clickOnElement(chatBox);
+        commonUI.sleepInSecond(10);
+
+    }
+
+    @Test
+    public void testcase6(){
+        commonUI = new CommonUI(driver);
+        String URL = "https://automationfc.github.io/basic-form/index.html";
+        String EXPECT_TITLE = "Google";
+        String EXPECT_TITLE_PARENT = "Selenium WebDriver";
+        By googleXpath = By.xpath("//a[text()='GOOGLE']");
+
+        commonUI.goToUrl(URL);
+        commonUI.sleepInSecond(2);
+        String baseWindow = driver.getWindowHandle();
+        commonUI.scrollToViewElement(googleXpath);
+        commonUI.clickOnElement(googleXpath);
+        commonUI.sleepInSecond(3);
+
+        //Switch sang google
+        commonUI.switchWindowById(baseWindow);
+        commonUI.sleepInSecond(3);
+        commonUI.verifyTitle(EXPECT_TITLE);
+
+        //swich về ngược lại window/tab cha:
+        String currentWindow = driver.getWindowHandle();
+        commonUI.switchWindowById(currentWindow);
+        commonUI.sleepInSecond(3);
+        commonUI.verifyTitle(EXPECT_TITLE_PARENT);
+    }
+    @Test
+    public void testcase6_C2(){
+        commonUI = new CommonUI(driver);
+        String URL = "https://automationfc.github.io/basic-form/index.html";
+        String EXPECT_TITLE = "Google";
+        String EXPECT_URL = "https://www.google.com.vn/";
+        String EXPECT_TITLE_PARENT = "Selenium WebDriver";
+        String EXPECT_PARENT_URL = "https://automationfc.github.io/basic-form/index.html";
+        By googleXpath = By.xpath("//a[text()='GOOGLE']");
+
+        commonUI.goToUrl(URL);
+        commonUI.sleepInSecond(2);
+        commonUI.scrollToViewElement(googleXpath);
+        commonUI.clickOnElement(googleXpath);
+        commonUI.sleepInSecond(3);
+
+        //Switch sang google
+        commonUI.switchWindowByTitle(EXPECT_TITLE);
+        commonUI.sleepInSecond(3);
+        commonUI.verifyCurrentUrl(EXPECT_URL);
+
+        //swich về ngược lại window/tab cha:
+        commonUI.switchWindowByTitle(EXPECT_TITLE_PARENT);
+        commonUI.sleepInSecond(3);
+        commonUI.verifyCurrentUrl(EXPECT_PARENT_URL);
     }
 }
