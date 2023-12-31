@@ -5,6 +5,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
+import java.time.Duration;
+
 public class BaseTest {
     public WebDriver driver;
 
@@ -12,6 +14,7 @@ public class BaseTest {
     public WebDriver createDriver() {
         System.setProperty("webdriver.chrome.driver", "src/test/java/webDriver/chromedriver.exe");
         driver = new ChromeDriver();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.manage().window().maximize();
         return driver;
     }

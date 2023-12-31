@@ -1,4 +1,4 @@
-package lean03;
+package lyThuyet;
 
 import common.BaseTest;
 import common.CommonUI;
@@ -8,7 +8,6 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import javax.xml.bind.SchemaOutputResolver;
 import java.util.List;
 
 public class Bai03 extends BaseTest {

@@ -1,8 +1,7 @@
-package learn04;
+package lyThuyet;
 
 import common.BaseTest;
 import common.CommonUI;
-import org.checkerframework.checker.units.qual.C;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;

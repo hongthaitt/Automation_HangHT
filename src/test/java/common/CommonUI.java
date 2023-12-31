@@ -4,17 +4,22 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Set;
 
 public class CommonUI {
-    public WebDriver driver;
+    public static WebDriver driver;
+    public static int TIME_OUT = 20;
     public CommonUI(WebDriver y){
         driver = y;
     }
-    public void sleepInSecond(long timeInSecond) {
+    public static void sleepInSecond(long timeInSecond) {
         try {
             Thread.sleep(timeInSecond * 1000);
         } catch (InterruptedException e) {
@@ -22,58 +27,62 @@ public class CommonUI {
         }
         System.out.println("Sleep in " + timeInSecond + " seconds");
     }
-    public void scrollToViewElement(By by){
+    public static void scrollToViewElement(By by){
         WebElement element = driver.findElement(by);
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
     }
 
-    public boolean checkDisplay(By by){
+    public static boolean checkDisplay(By by){
         return driver.findElement(by).isDisplayed();
     }
-    public void clickOnElement(By by){
+    public static void vefifyDisplay(By by){
+        Assert.assertTrue(checkDisplay(by));
+    }
+    public static void clickOnElement(By by){
+        waitUntilVisible(by);
         driver.findElement(by).click();
     }
-    public void goToUrl(String url){
+    public static void goToUrl(String url){
         driver.get(url);
     }
-    public void setText(By by, String value){
+    public static void setText(By by, String value){
         driver.findElement(by).sendKeys(value);
     }
-    public String getText(By by){
+    public static String getText(By by){
         return driver.findElement(by).getText();
     }
-    public void verifyMessage(String actualMessage, String expectMessage){
+    public static void verifyMessage(String actualMessage, String expectMessage){
         System.out.println("Actual Message: " + actualMessage);
         System.out.println("expectMessage: " + expectMessage);
         Assert.assertTrue(actualMessage.equals(expectMessage));
     }
-    public void assertTrue(boolean condition){
+    public static void assertTrue(boolean condition){
         Assert.assertTrue(condition);
     }
-    public List<WebElement> listElement(By by){
+    public static List<WebElement> listElement(By by){
         return driver.findElements(by);
     }
 
-    public void verifyCurrentUrl(String expectUrl){
+    public static void verifyCurrentUrl(String expectUrl){
         Assert.assertTrue(driver.getCurrentUrl().equals(expectUrl));
     }
-    public void verifyTitle(String expectTitle){
+    public static void verifyTitle(String expectTitle){
         Assert.assertTrue(driver.getTitle().equals(expectTitle));
     }
 
-    public void switchFrameByWebElement(By by){
+    public static void switchFrameByWebElement(By by){
         WebElement frame = driver.findElement(by);
         driver.switchTo().frame(frame);
     }
-    public void switchFrameById(String id){
+    public static void switchFrameById(String id){
         driver.switchTo().frame(id);
     }
-    public void switchToDefaultContent(){
+    public static void switchToDefaultContent(){
         driver.switchTo().defaultContent();
     }
 
     //Chỉ dùng trong trường hợp script có mỗi 2 window/tab
-    public void switchWindowById(String otherID){
+    public static void switchWindowById(String otherID){
         Set<String> listWindow = driver.getWindowHandles();
         for(String id : listWindow){
             if(!id.equals(otherID)){
@@ -83,7 +92,7 @@ public class CommonUI {
     }
 
     //Dùng  trong trường hợp có nhiều hơn 2 windown/tab
-    public void switchWindowByTitle(String expectTitle){
+    public static void switchWindowByTitle(String expectTitle){
         Set<String> listWindow = driver.getWindowHandles();
         for(String id : listWindow){
             driver.switchTo().window(id);
@@ -92,5 +101,34 @@ public class CommonUI {
                 break;
             }
         }
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+
+    }
+    public static void upload01File(By by, String path){
+        driver.findElement(by).sendKeys(path);
+        sleepInSecond(2);
+    }
+
+    public static void waitUntilInvisible(By by){
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(TIME_OUT));
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
+        }
+        catch (Exception e){
+            Assert.fail("ELEMENT not invisible!");
+        }
+    }
+
+    public static void waitUntilVisible(By by){
+        try{
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(TIME_OUT));
+            wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(by));
+        }
+        catch (Exception e){
+            Assert.fail("ELEMENT not visible!");
+        }
+    }
+    public static void implicitWait(int timeout){
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(timeout));
     }
 }
