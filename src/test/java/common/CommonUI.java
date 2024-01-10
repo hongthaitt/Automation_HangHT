@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import report.AllureManager;
 
 import java.time.Duration;
 import java.util.List;
@@ -47,6 +48,7 @@ public class CommonUI {
     }
     public static void setText(By by, String value){
         driver.findElement(by).sendKeys(value);
+        AllureManager.saveScreenshotPNG();
     }
     public static String getText(By by){
         return driver.findElement(by).getText();
