@@ -1,0 +1,1 @@
+{"uuid":"aa41af69-fdeb-4dda-99e4-abb991eee20c","name":"testcase.SearchTestcase","children":["96eef2fa-2f6a-480a-abb7-8a82150d04d1"],"befores":[{"name":"setExcelData","status":"passed","stage":"finished","description":"","steps":[],"attachments":[],"parameters":[],"start":1706350584803,"stop":1706350591319}],"afters":[],"start":1706350584370,"stop":1706350650604}

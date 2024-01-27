@@ -14,21 +14,38 @@ public class LoginTestcase extends BaseTest {
     HomePage homePage;
     LoginPage loginPage;
     ExcelHelpers excelHelpers = new ExcelHelpers();
+
     @BeforeClass
-    public void setExcelData(){
+    public void setExcelData() {
         excelHelpers.setExcelFile("src/test/java/data/DataYodyfile.xlsx", "Sheet1");
     }
+
     @Test(priority = 1, description = "Login thành công vào yody 2")
-    public void loginSuccess(){
+    public void loginSuccess() {
         homePage = new HomePage(driver);
         loginPage = new LoginPage(driver);
-        String username = excelHelpers.getCellData("username",1);
-        String pw = excelHelpers.getCellData("password",1);
-        System.out.println("us/pw: " + username + "/" +pw);
+        String username = excelHelpers.getCellData("username", 1);
+        String pw = excelHelpers.getCellData("password", 1);
+        System.out.println("us/pw: " + username + "/" + pw);
         homePage.goToHomePage();
         homePage.clickOnLoginBtn();
         loginPage.verifyLoginUrl();
         loginPage.login(username, pw);
         homePage.verifyLoginSuccess();
     }
+
+    @Test(priority = 2, description = "Login không thành công với email sai và password đúng")
+    public void loginUnsuccess(){
+        homePage = new HomePage(driver);
+        loginPage = new LoginPage(driver);
+        String username = excelHelpers.getCellData("username", 2);
+        String pw =  excelHelpers.getCellData("password", 2);
+        System.out.println("us/pw: " + username + "/" + pw);
+        homePage.goToHomePage();
+        homePage.clickOnLoginBtn();
+        loginPage.verifyLoginUrl();
+        loginPage.login(username, pw);
+        loginPage.verifyErrorMessage();
+    }
+
 }

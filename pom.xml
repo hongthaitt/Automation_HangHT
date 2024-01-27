@@ -65,6 +65,37 @@
             <version>4.13.0</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path</artifactId>
+            <version>2.8.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>2.0.9</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>2.0.9</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/net.serenity-bdd/serenity-core -->
+<!--        <dependency>-->
+<!--            <groupId>net.serenity-bdd</groupId>-->
+<!--            <artifactId>serenity-core</artifactId>-->
+<!--            <version>3.2.2</version>-->
+<!--        </dependency>-->
+        <dependency>
+            <groupId>net.datafaker</groupId>
+            <artifactId>datafaker</artifactId>
+            <version>1.9.0</version>
+        </dependency>
+
         <!--        <dependency>-->
         <!--            <groupId>org.seleniumhq.selenium</groupId>-->
         <!--            <artifactId>selenium-api</artifactId>-->
@@ -88,7 +119,7 @@
                     <configuration>
                         <suiteXmlFiles>
                             <!-- Call Suite name -->
-                            <suiteXmlFile>suites/SuiteLoginTest.xml</suiteXmlFile>
+                            <suiteXmlFile>src/test/java/testSuite/testng.xml</suiteXmlFile>
                         </suiteXmlFiles>
                         <argLine>
                             -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/1.9.19/aspectjweaver-1.9.19.jar"
@@ -105,8 +136,8 @@
     </build>
 
     <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
     </properties>
 
 </project>

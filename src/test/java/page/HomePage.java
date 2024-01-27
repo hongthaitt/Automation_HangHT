@@ -19,6 +19,8 @@ public class HomePage {
     String URL_HOMEPAGE = "https://yody.vn/";
     By loginBtn = By.xpath("//a[text()='ĐĂNG NHẬP']");
     By accountBtn = By.xpath("//a[@class='logined']//span[text()='Cá nhân']");
+    By inputKey = By.xpath("//form[@id='header-search-product']//input[@name='query']");
+    By iconSearch = By.xpath("//form[@id='header-search-product']//button[@class='btn icon-fallback-text input-group-btn']");
 
     @Step("Open yody page:")
     public void goToHomePage(){
@@ -35,5 +37,12 @@ public class HomePage {
     @Step("Verify login success")
     public void verifyLoginSuccess(){
         waitUntilVisible(accountBtn);
+    }
+
+    @Step("Search product by key: {0}")
+    public void searchProduct(String key){
+         waitUntilVisible(inputKey);
+         setText(inputKey, key);
+         clickOnElement(iconSearch);
     }
 }

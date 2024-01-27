@@ -133,4 +133,7 @@ public class CommonUI {
     public static void implicitWait(int timeout){
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(timeout));
     }
+    public static List<WebElement> listEle(By by){
+        return driver.findElements(by);
+    }
 }
