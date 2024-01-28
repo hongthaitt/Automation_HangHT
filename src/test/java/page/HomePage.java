@@ -17,6 +17,7 @@ public class HomePage {
     }
 
     String URL_HOMEPAGE = "https://yody.vn/";
+    String EXPECT_MESS_HTML5= "Please fill out this field.";
     By loginBtn = By.xpath("//a[text()='ĐĂNG NHẬP']");
     By accountBtn = By.xpath("//a[@class='logined']//span[text()='Cá nhân']");
     By inputKey = By.xpath("//form[@id='header-search-product']//input[@name='query']");
@@ -39,10 +40,24 @@ public class HomePage {
         waitUntilVisible(accountBtn);
     }
 
-    @Step("Search product by key: {0}")
-    public void searchProduct(String key){
+    @Step("Input key: {0} to search")
+    public void inputKeySearch(String key){
          waitUntilVisible(inputKey);
          setText(inputKey, key);
-         clickOnElement(iconSearch);
     }
+    @Step("Click on search element")
+    public void clickOnSearchBtn(){
+        clickOnElement(iconSearch);
+    }
+    @Step("Click on search element")
+    public void pressToSpace(){
+        pressSpace(inputKey);
+    }
+    @Step("Verify Null Key")
+    public void verifyNullKey(){
+        String actual = getHtml5Message(inputKey);
+        verifyMessage(actual, EXPECT_MESS_HTML5);
+    }
+
+
 }

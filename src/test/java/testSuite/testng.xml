@@ -2,9 +2,14 @@
 <suite name="Login" verbose="1">
     <test name="Regression">
         <classes>
-            <class name="testcase.LoginTestcase">
+<!--            <class name="testcase.LoginTestcase">-->
+<!--                <methods>-->
+<!--                    <include name="loginUnsuccess"/>-->
+<!--                </methods>-->
+<!--            </class> -->
+            <class name="testcase.SearchTestcase">
                 <methods>
-                    <include name="loginUnsuccess"/>
+                    <include name="search01"/>
                 </methods>
             </class>
         </classes>

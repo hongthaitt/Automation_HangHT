@@ -1,9 +1,7 @@
 package common;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import io.qameta.allure.Step;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -135,5 +133,34 @@ public class CommonUI {
     }
     public static List<WebElement> listEle(By by){
         return driver.findElements(by);
+    }
+
+    public static void scrollUntilEndPage() {
+        try {
+            long lastHeight = (long) ((JavascriptExecutor) driver).executeScript("return document.body.scrollHeight");
+
+            while (true) {
+                ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, document.body.scrollHeight);");
+                Thread.sleep(3000);
+//                waitUntilInvisible(elementLoading);
+                long newHeight = (long) ((JavascriptExecutor) driver).executeScript("return document.body.scrollHeight");
+                if (newHeight == lastHeight) {
+                    break;
+                }
+                lastHeight = newHeight;
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    public static  void pressSpace(By by){
+        driver.findElement(by).sendKeys(Keys.SPACE);
+    }
+    public static String getHtml5Message(By by){
+        return driver.findElement(by).getAttribute("validationMessage");
+    }
+    public static boolean haveScroll(){
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        return (boolean) js.executeScript("return document.documentElement.scrollHeight>document.documentElement.clientHeight;");
     }
 }
