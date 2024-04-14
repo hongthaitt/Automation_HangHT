@@ -1,0 +1,1 @@
+{"uuid":"0059f721-f2b7-4b13-9bca-6f29f90c820b","name":"testcase.RegisterTestcase","children":["541a9384-a8a9-4243-8b12-5b68a2fc6aba"],"befores":[{"name":"setExcelData","status":"passed","stage":"finished","description":"","steps":[],"attachments":[],"parameters":[],"start":1713082067336,"stop":1713082070154}],"afters":[],"start":1713082067219,"stop":1713082103622}
