@@ -24,8 +24,8 @@ public class CheckoutTestcase extends BaseTest {
         excelHelpers.setExcelFile("src/test/java/data/DataYodyfile.xlsx", "Sheet3");
     }
 
-    @Test(priority = 1, description = "Kiểm tra thanh toán bằng app VPN pay ")
-    public void TC05(){
+    @Test(priority = 1, description = "Kiểm tra thanh toán bằng app VPN pay mua 2 sản phẩm ")
+    public void TC01(){
         loginPage = new LoginPage(driver);
         homePage = new HomePage(driver);
         searchPage = new ResultSearchPage(driver);
@@ -70,5 +70,44 @@ public class CheckoutTestcase extends BaseTest {
         cartPage.clickPayment();
         checkoutPage.checkoutSuccessWithVnPayMethod(name, phone, address, prvBilling, distBilling, wardBilling);
     }
+    @Test(priority = 1, description = "Kiểm tra thanh toán bằng app VPN pay mua 1 sản phẩm")
+    public void TC02(){
+        loginPage = new LoginPage(driver);
+        homePage = new HomePage(driver);
+        searchPage = new ResultSearchPage(driver);
+        checkoutPage = new CheckoutPage(driver);
+        cartPage = new CartPage(driver);
+        detailProductPage = new DetailProductPage(driver);
+        username = excelHelpers.getCellData("user_name", 2);
+        password = excelHelpers.getCellData("password", 2);
+        key = excelHelpers.getCellData("key_search", 2);
+        qty = excelHelpers.getCellData("qty", 2);
+        name = excelHelpers.getCellData("name_billing", 2);
+        phone = excelHelpers.getCellData("phone_billing", 2);
+        address = excelHelpers.getCellData("address_billing", 2);
+        prvBilling = excelHelpers.getCellData("prv_billing", 2);
+        distBilling = excelHelpers.getCellData("dist_billing", 2);
+        wardBilling = excelHelpers.getCellData("ward_billing", 2);
+        String[] keyList = key.split(";");
+        String[] qtyList = qty.split(";");
 
+        homePage.goToHomePage();
+        homePage.clickOnLoginBtn();
+        loginPage.verifyLoginUrl();
+        loginPage.login(username, password);
+        homePage.verifyLoginSuccess();
+
+        cartPage.removeCart();
+
+        homePage.inputKeySearch(keyList[0]);
+        homePage.clickOnSearchBtn();
+        searchPage.clickToDetailProductPolo(keyList[0]);
+        detailProductPage.getInfoPrd(qtyList[0]);
+        detailProductPage.setAddToCart();
+
+        cartPage.clickOnCart();
+        cartPage.verifyProductInfoCartPage();
+        cartPage.clickPayment();
+        checkoutPage.checkoutSuccessWithVnPayMethod(name, phone, address, prvBilling, distBilling, wardBilling);
+    }
 }
