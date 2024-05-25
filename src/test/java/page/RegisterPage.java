@@ -53,7 +53,7 @@ public class RegisterPage {
         attachImage();
         clickOnElement(submitBtn);
         waitUntilVisible(accountBtn);
-//        waitUntilVisible(messageSuccess);
+        waitUntilVisible(messageSuccess);
         Assert.assertTrue(isDisplay(messageSuccess));
         verifyMessage(getText(messageSuccess), SUCCESS_MESSAGE);
         verifyRegisterSuccess(name, validEmail);

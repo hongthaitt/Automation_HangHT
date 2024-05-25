@@ -39,4 +39,5 @@ public class LoginPage {
         AllureManager.saveScreenshotPNG();
         verifyMessage(actualMessage, ERROR_EMAIL_MESSAGE);
     }
+
 }

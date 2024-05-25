@@ -50,6 +50,8 @@ public class HomePage {
     }
     @Step("Click on search element")
     public void clickOnSearchBtn(){
+        scrollToElementInTop();
+        waitForElementClickable(iconSearch, 10);
         clickOnElement(iconSearch);
     }
     @Step("Click on search element")

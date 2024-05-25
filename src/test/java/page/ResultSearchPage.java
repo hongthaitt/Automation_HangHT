@@ -105,4 +105,12 @@ public class ResultSearchPage {
     public void verifyHaveScroll(){
         assertTrue(haveScroll());
     }
+    @Step("Click to detail random product shirt in list result search")
+    public void clickToDetailProductPolo(String productName) {
+        scrollToView(header);
+        By detailProductXpath = By.xpath("//*[@class='product-name']//a[text()='" + productName + "']");
+//        List<WebElement> listElement = listElement(listResult);
+        clickOnElement(detailProductXpath);
+    }
+
 }

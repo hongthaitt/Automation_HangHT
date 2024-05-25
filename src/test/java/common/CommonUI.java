@@ -1,5 +1,6 @@
 package common;
 
+import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -8,6 +9,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import report.AllureManager;
 
+import java.io.ByteArrayInputStream;
 import java.time.Duration;
 import java.util.List;
 import java.util.Set;
@@ -43,8 +45,44 @@ public class CommonUI {
     }
 
     public static void clickOnElement(By by) {
-        waitUntilVisible(by);
+        sleepInSecond(3);
         driver.findElement(by).click();
+    }
+    public static void clickByElement(WebElement element) {
+        element.click();
+    }
+    public static void scrollToElementInTop() {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.scrollTo(0, -document.body.scrollHeight);");
+
+    }
+    @Step("Wait element to be clickable {0} in {1} second")
+    public static void waitForElementClickable(By by, int second) {
+        WebDriverWait wait = new WebDriverWait(driver,  Duration.ofSeconds(second));
+
+        wait.until(ExpectedConditions.elementToBeClickable(by));
+    }
+    public static void waitForUrlContain(String expectUrl) {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(TIME_OUT));
+            wait.until(ExpectedConditions.urlContains(expectUrl));
+            Allure.addAttachment("IMAGE: ", new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)));
+        } catch (Exception e) {
+            Allure.addAttachment("IMAGE: ", new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)));
+            Assert.fail("Url not contains: " + expectUrl);
+        }
+
+    }
+    @Step("Click to select size of shirt")
+    public static void clickOnElementByJs(By byElement) {
+        WebElement element = driver.findElement(byElement);
+//        ((JavascriptExecutor) driver).executeScript("arguments[0].checked = true;", radioBtn);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+//        clickElement(sizeOption);
+    }
+
+    public static void refreshPage() {
+        driver.navigate().refresh();
     }
 
     public static void goToUrl(String url) {
@@ -59,7 +97,11 @@ public class CommonUI {
     public static String getText(By by) {
         return driver.findElement(by).getText();
     }
-
+    public static void scrollToView(By by) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].scrollIntoView();", driver.findElement(by));
+        Allure.addAttachment("IMAGE: ", new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)));
+    }
     public static void verifyMessage(String actualMessage, String expectMessage) {
         System.out.println("Actual Message: " + actualMessage);
         System.out.println("expectMessage: " + expectMessage);
@@ -138,6 +180,7 @@ public class CommonUI {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(TIME_OUT));
             wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(by));
         } catch (Exception e) {
+            System.out.println("exception: " +e);
             Assert.fail("ELEMENT not visible!");
         }
     }
@@ -187,5 +230,17 @@ public class CommonUI {
     }
     public static boolean isDisplay(By by) {
         return driver.findElement(by).isDisplayed();
+    }
+    public static String getValue(By by) {
+        waitUntilVisible(by);
+        String text = driver.findElement(by).getAttribute("value");
+        System.out.println("Log value: " + text);
+        return text;
+    }
+
+
+    public static void clearText(By by) {
+        driver.findElement(by).clear();
+        Allure.addAttachment("IMAGE: ", new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)));
     }
 }
